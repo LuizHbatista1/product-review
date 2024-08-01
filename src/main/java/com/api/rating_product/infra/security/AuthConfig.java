@@ -35,6 +35,12 @@ public class AuthConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+
+        /* filtro de segurança para os endpoints
+        Vale ressaltar , para facilitar testes de terceiros que venham a avaliar esse codigo
+        todos os endpoints estao permitindo as requisoçoes necessarias
+         */
+
     }
 
     @Bean

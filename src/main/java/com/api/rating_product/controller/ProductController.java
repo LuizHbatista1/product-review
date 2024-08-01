@@ -2,6 +2,7 @@ package com.api.rating_product.controller;
 
 import com.api.rating_product.DTOS.product.ProductDTO;
 import com.api.rating_product.DTOS.review.ReviewDTO;
+import com.api.rating_product.DTOS.review.ReviewResponseDTO;
 import com.api.rating_product.domain.product.Product;
 import com.api.rating_product.domain.review.Review;
 import com.api.rating_product.service.product.ProductServiceImpl;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -43,15 +45,30 @@ public class ProductController {
 
     }
 
-    @GetMapping("/{productId}/review")
-    public ResponseEntity<List<Review>>getReviewByProduct(@PathVariable Long productId){
+    @GetMapping("/product")
+    public ResponseEntity<List<Product>>getAllProducts(@RequestBody ProductDTO productDTO){
 
-        List<Review> reviews = reviewService.findReviewByProductId(productId);
-        return new ResponseEntity<>(reviews , HttpStatus.OK);
-
+        List<Product> products = productService.findAllProducts();
+        return new ResponseEntity<>(products , HttpStatus.OK);
 
     }
 
+    @GetMapping("/{productId}/review")
+    public ResponseEntity<List<ReviewResponseDTO>>getReviewByProduct(@PathVariable Long productId){
 
+        List<Review> reviews = reviewService.findReviewByProductId(productId);
+
+        List<ReviewResponseDTO> responseDTOS = reviews.stream().map(review -> {
+
+            String username = review.getUserId().getFirstName();
+            String comment = review.getComment();
+            Double rating = review.getRating();
+            return new ReviewResponseDTO(username , rating , comment);
+
+        }).collect(Collectors.toList());
+
+        return new ResponseEntity<>(responseDTOS , HttpStatus.OK);
+
+    }
 
 }

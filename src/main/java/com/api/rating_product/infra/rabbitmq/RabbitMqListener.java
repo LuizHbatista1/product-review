@@ -8,14 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMqListener {
 
-
     @RabbitListener
     public void listen(Message<ReviewDTO> message){
 
 
-
     }
-
-
 
 }

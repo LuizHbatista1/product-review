@@ -19,8 +19,7 @@ public class RabbitMqService {
 
         rabbitTemplate.convertAndSend(exchange , "",review);
 
-    }
-
+    }  // faz o envio da review para a fila
 
 
 }

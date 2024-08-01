@@ -3,6 +3,7 @@ package com.api.rating_product.service.auth;
 import com.api.rating_product.DTOS.loginSystem.RegisterDTO;
 import com.api.rating_product.domain.user.User;
 import com.api.rating_product.repositories.UserRepository;
+import com.api.rating_product.service.user.UserServiceImpl;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Service;
 public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, UserServiceImpl userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
 
@@ -34,6 +37,7 @@ public class AuthService implements UserDetailsService {
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.firstName() , data.email() , encryptedPassword , data.role());
+        userService.lengthPasswordCheck(data);
         return userRepository.save(newUser);
     }
 }

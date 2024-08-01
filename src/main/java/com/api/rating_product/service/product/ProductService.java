@@ -13,6 +13,8 @@ public interface ProductService {
 
     List<Product>getProductId(Long productId);
 
+    List<Product>findAllProducts();
+
 
 
 }

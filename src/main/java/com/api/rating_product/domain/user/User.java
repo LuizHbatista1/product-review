@@ -16,14 +16,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     private RoleType role = RoleType.COMMON;
 
     public User(){
-
 
     }
 
@@ -85,7 +87,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return email; // email sera usado como username
     }
 
     @Override

@@ -18,7 +18,9 @@ public class Review {
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User userId;
+    @Column(nullable = false)
     private Double rating;
+    @Column(nullable = false)
     private String comment;
 
     public Review (){

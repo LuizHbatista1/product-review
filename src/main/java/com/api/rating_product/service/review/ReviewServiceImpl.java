@@ -48,7 +48,7 @@ public class ReviewServiceImpl implements ReviewService {
         newReview.setRating(newReview.getRating());
         newReview.setComment(newReview.getComment());
         this.saveReview(newReview);
-        rabbitMqService.NotificationQueue(exchange , newReview);
+        rabbitMqService.NotificationQueue(exchange , newReview); // notifica a queue do rabbit
         return newReview;
 
     }
@@ -63,7 +63,8 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> findReviewByProductId(Long productId) {
 
         Product product =  productRepository.findById(productId).orElseThrow(()-> new RuntimeException());
-        return reviewRepository.findReviewByProductId(product);
+        return reviewRepository.findReviewByProductId(product); // busca a review pelo id do produto
 
     }
+
 }

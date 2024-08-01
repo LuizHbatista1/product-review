@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class TokenProviderService {
+public class TokenProviderService {   // classe para gerar o token JWT
 
     @Value("${security.jwt.token.secret-key}")
     private String JWT_SECRET;

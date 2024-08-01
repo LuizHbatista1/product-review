@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-
     @Bean
     public Queue createQueueReview(){
 
@@ -64,7 +63,5 @@ public class RabbitMqConfig {
         return rabbitTemplate;
 
     }
-
-
 
 }

@@ -20,13 +20,11 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenProviderService tokenService;
     private UserRepository userRepository;
 
-
     @Autowired
     public SecurityFilter(UserRepository userRepository, TokenProviderService tokenService) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
     }
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
