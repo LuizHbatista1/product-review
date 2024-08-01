@@ -24,7 +24,7 @@ public class RabbitMqConfig {
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory){
 
-        return rabbitAdmin(connectionFactory);
+        return new RabbitAdmin(connectionFactory);
 
     }
 

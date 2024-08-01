@@ -8,9 +8,13 @@ import com.api.rating_product.repositories.ProductRepository;
 import com.api.rating_product.repositories.ReviewRepository;
 import com.api.rating_product.repositories.UserRepository;
 import com.api.rating_product.service.product.ProductServiceImpl;
+import com.api.rating_product.service.rabbitmq.RabbitMqService;
 import com.api.rating_product.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -20,27 +24,31 @@ public class ReviewServiceImpl implements ReviewService {
     private final ProductRepository productRepository;
     private final ProductServiceImpl productService;
     private final UserServiceImpl userService;
+    private final RabbitMqService rabbitMqService;
+    @Value("${rabbitmq.exchange}")
+    private String exchange;
 
     @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository, UserRepository userRepository, ProductRepository productRepository, ProductServiceImpl productService, UserServiceImpl userService) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, UserRepository userRepository, ProductRepository productRepository, ProductServiceImpl productService, UserServiceImpl userService, RabbitMqService rabbitMqService) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.productService = productService;
         this.userService = userService;
-
+        this.rabbitMqService = rabbitMqService;
     }
 
     @Override
     public Review createReview(ReviewDTO reviewDTO) {
         User user = userService.findUserById(reviewDTO.userId());
         Product product = productService.findProductById(reviewDTO.productId());
-        Review newReview = new Review();
+        Review newReview = new Review(reviewDTO);
         newReview.setProductId(product);
         newReview.setUserId(user);
         newReview.setRating(newReview.getRating());
         newReview.setComment(newReview.getComment());
         this.saveReview(newReview);
+        rabbitMqService.NotificationQueue(exchange , newReview);
         return newReview;
 
     }
@@ -48,6 +56,14 @@ public class ReviewServiceImpl implements ReviewService {
     public void saveReview(Review review){
 
         this.reviewRepository.save(review);
+
+    }
+
+    @Override
+    public List<Review> findReviewByProductId(Long productId) {
+
+        Product product =  productRepository.findById(productId).orElseThrow(()-> new RuntimeException());
+        return reviewRepository.findReviewByProductId(product);
 
     }
 }

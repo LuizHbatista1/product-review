@@ -3,10 +3,16 @@ package com.api.rating_product.service.product;
 import com.api.rating_product.DTOS.product.ProductDTO;
 import com.api.rating_product.domain.product.Product;
 
+import java.util.List;
+
 public interface ProductService {
 
     Product createProduct(ProductDTO productDTO);
 
     Product findProductById(Long id);
+
+    List<Product>getProductId(Long productId);
+
+
 
 }

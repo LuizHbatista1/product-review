@@ -31,6 +31,7 @@ public class AuthConfig {
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/product").permitAll()
                         .requestMatchers(HttpMethod.POST, "/review").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/{productId}/review").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

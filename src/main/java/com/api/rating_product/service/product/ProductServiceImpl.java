@@ -6,6 +6,8 @@ import com.api.rating_product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -38,4 +40,12 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public List<Product> getProductId(Long productId) {
+
+        this.productRepository.findById(productId).orElseThrow(()-> new RuntimeException());
+
+        return List.of();
+
+    }
 }

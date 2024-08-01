@@ -9,10 +9,9 @@ import com.api.rating_product.service.review.ReviewServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -41,6 +40,15 @@ public class ProductController {
 
         Review newReview = reviewService.createReview(reviewDTO);
         return new ResponseEntity<>(newReview , HttpStatus.CREATED);
+
+    }
+
+    @GetMapping("/{productId}/review")
+    public ResponseEntity<List<Review>>getReviewByProduct(@PathVariable Long productId){
+
+        List<Review> reviews = reviewService.findReviewByProductId(productId);
+        return new ResponseEntity<>(reviews , HttpStatus.OK);
+
 
     }
 

@@ -1,5 +1,6 @@
 package com.api.rating_product.domain.review;
 
+import com.api.rating_product.DTOS.review.ReviewDTO;
 import com.api.rating_product.domain.product.Product;
 import com.api.rating_product.domain.user.User;
 import jakarta.persistence.*;
@@ -21,6 +22,13 @@ public class Review {
     private String comment;
 
     public Review (){
+
+    }
+
+    public Review (ReviewDTO data){
+
+        this.rating = data.rating();
+        this.comment = data.comment();
 
     }
 
