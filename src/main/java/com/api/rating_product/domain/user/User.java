@@ -1,6 +1,8 @@
 package com.api.rating_product.domain.user;
 
+import com.api.rating_product.DTOS.loginSystem.RegisterDTO;
 import jakarta.persistence.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +37,9 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public User(RegisterDTO data) {
     }
 
     public Long getId() {
@@ -108,6 +113,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object object){
+
+        return  EqualsBuilder.reflectionEquals(object , this);
+
     }
 
 }

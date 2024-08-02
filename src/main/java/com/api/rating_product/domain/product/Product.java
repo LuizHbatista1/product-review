@@ -2,6 +2,7 @@ package com.api.rating_product.domain.product;
 
 import com.api.rating_product.DTOS.product.ProductDTO;
 import jakarta.persistence.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Entity(name = "products")
 @Table(name = "tb_products")
@@ -10,7 +11,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String description;
 
     public Product (){
@@ -46,5 +49,12 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object object){
+
+        return  EqualsBuilder.reflectionEquals(object , this);
+
     }
 }
