@@ -23,7 +23,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = ReviewServiceImpl.class)
 public class ReviewServiceTest {
 
     @Autowired
